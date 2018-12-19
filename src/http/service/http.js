@@ -2,10 +2,12 @@ import axios from 'axios'
 import qs from "qs"
 import {HTTP_MAIN} from '../../constants'
 import {encryptionRequest} from '@/http/service/encryptionRequest'
+
 // 设置加密忽略列表
 const noEncryptUrl = [
     'Login/registerTeacher.html',
-    'login/getPublicKey'
+    'Teacher/sendUpdatePassMsg.html',
+    'Login/login.html'
 ]
 
 
@@ -19,7 +21,6 @@ export const responseHandler = (options, resData, resolve, reject) => {
 
 
 export const rpcCall = (url, method = 'get', params = {}, root = 'teacher') => {
-
     if (method === 'get') {
         url += '?' + qs.stringify(params)
     }
@@ -31,9 +32,11 @@ export const rpcCall = (url, method = 'get', params = {}, root = 'teacher') => {
         url: _url,
         data: qs.stringify(params),
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
     }
+
+
     let TIME_OUT = 10000 // 超时时间为十秒
     if (noEncryptUrl.indexOf(url) < 0) {
         // 进行加密
@@ -42,13 +45,14 @@ export const rpcCall = (url, method = 'get', params = {}, root = 'teacher') => {
         config.headers.token = mimi.token
         config.headers.starttime = mimi.starttime
     }else{
-      console.log(url);
+
     }
 
     return new Promise((resolve, reject) => {
       console.log(config);
         axios(config).then(res => {
             if (res.data.code === -40666) {
+              console.log(this);
               this.$vux.toast.show({
                 showPositionValue: false,
                 text: '您已在其他端登陆，请重新登陆!',

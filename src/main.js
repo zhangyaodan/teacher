@@ -15,10 +15,6 @@ Vue.component('headerBack',headerBack)          //全局组件
 Vue.component('betterScroll',betterScroll)          //全局组件
 
 
-import axios from 'axios';
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-// Vue.prototype.$axios = axios;
-
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

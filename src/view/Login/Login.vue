@@ -8,12 +8,12 @@
         <!--输入手机号-->
         <div class="inputItem">
           <div class="leftIcon"></div>
-          <input placeholder="请输入手机号" type="text">
+          <input placeholder="请输入手机号" v-model="mobile" type="text">
         </div>
         <!--输入密码-->
         <div class="inputItem">
           <div  class="leftIcon"></div>
-          <input placeholder="请输入登录密码" :type="eyeType?'text':'password'">
+          <input placeholder="请输入登录密码" v-model="passwd" :type="eyeType?'text':'password'">
           <div class="rightIcon" @click="eyeType=!eyeType">
             <div :class="{'openEye':eyeType,'closeEye':!eyeType}"></div>
           </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
   import userCard from '@/components/login/userCard';
     export default {
         name: "Login",
@@ -45,12 +46,40 @@
       data(){
         return{
           eyeType:false,      //默认隐藏密码
+          mobile:'',          //手机号
+          passwd:'',          //密码
         }
       },
       methods:{
+        ...mapActions([
+          'login'
+        ]),
           // 登陆
         goLogin(){
-          this.$router.push('/');
+          let obj = {
+            mobile:this.mobile,
+            passwd:this.passwd,
+            domain:'mls'
+          }
+          this.login(obj).then(data=>{
+            this.$vux.toast.show({
+              showPositionValue: false,
+              text: '登陆成功',
+              type: 'success',
+              position: 'middle',
+              time:1000
+            })
+            this.$router.push('/')
+          }).catch(err=>{
+            console.log(err);
+            this.$vux.toast.show({
+              showPositionValue: false,
+              text: err.info,
+              type: 'warn',
+              position: 'middle',
+              time:1000
+            })
+          });
         }
       }
     }

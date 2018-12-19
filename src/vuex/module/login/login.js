@@ -24,7 +24,18 @@ export default {
 
   },
   actions: {
-
+    // 登陆
+    login({ state, commit }, payload) {
+      const fn = login.login
+      return new Promise((resolve, reject) => {
+        fn(payload).then(res => {
+          if (res.data.code !== 0) return reject(res)
+          resolve(res.data.data)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
   },
   getters: {
 

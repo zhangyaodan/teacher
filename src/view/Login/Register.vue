@@ -8,21 +8,22 @@
     <div class="registerCon">
       <!--输入手机号-->
       <div class="inputItem">
-        <div class="poneNum">+86</div>
-        <input placeholder="请输入手机号" type="text">
+        <div class="poneNum">+{{prphone}}</div>
+        <input placeholder="请输入手机号" v-model="mobile" type="text">
       </div>
       <!--短信验证码-->
       <div class="inputItem">
         <div class="leftIcon"></div>
-        <input placeholder="短信验证码" type="text">
-        <div class="rightIcon rightTitle" @click="sendOrganWebUserCode">
-          发送验证码
+        <input placeholder="短信验证码" type="text"  v-model="code">
+        <div  class="rightIcon rightTitle" @click="sendCode">
+          <span v-if="codeShow">发送验证码</span>
+          <span v-else>{{timeNum}}s</span>
         </div>
       </div>
       <!--输入密码-->
       <div class="inputItem">
         <div  class="leftIcon"></div>
-        <input placeholder="设置登录密码" type="text">
+        <input placeholder="设置登录密码" v-model="password" type="text">
         <div class="rightIcon">
           <div></div>
         </div>
@@ -42,31 +43,89 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import qs from "qs"
   import userCard from '@/components/login/userCard'
   import { mapState, mapActions, mapMutations } from 'vuex';
-
-  axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
     export default {
         name: "Register",
       components:{
           userCard
       },
+      data(){
+        return{
+          mobile:'',   //手机号
+          prphone:'86', //区号
+          codeShow:true,  //默认发送验证码显示
+          timeNum:60,    //默认倒计时从60开始
+          timeOut:null,    //计时器
+          password:'',   //登陆的密码
+          code:'',   //验证码
+        }
+      },
       mounted(){
+
       },
       methods:{
         ...mapActions([
           'registerTeacher',
-          'sendOrganWebUserCode'
+          'sendUpdatePassMsg'
         ]),
         // 发送验证码
-        sendOrganWebUserCode(){
-          this.sendOrganWebUserCode();
+        sendCode(){
+          // 开启倒计时读秒
+          this.codeShow = false
+          // 开启计时器
+          this.startTime()
+          // 发送手机号获取code
+          let obj = {
+            mobile:this.mobile,
+            prphone:this.prphone
+          }
+          this.sendUpdatePassMsg(obj)
         },
+        // 开启计时器
+        startTime(){
+          let that = this
+          this.timeOut = setInterval(function(){
+            if(that.timeNum>0){
+              that.timeNum--
+            }else{
+              that.codeShow = true
+              that.clearTime()
+            }
+          },1000)
+        },
+        // 消除计时器
+        clearTime(){
+          window.clearInterval(this.timeOut)
+        },
+        // 注册
         goRegister(){
-          this.$router.push('/Personal');
+          let obj = {
+            domain:'mls',
+            prphone:this.prphone,
+            mobile:this.mobile,
+            password:this.password,
+            code:this.code
+          }
+          this.registerTeacher(obj).then(data=>{
+            this.$vux.toast.show({
+              showPositionValue: false,
+              text: '登陆成功',
+              type: 'success',
+              position: 'middle',
+              time:1000
+            })
+            this.$router.push('/Personal')
+          }).catch(err=>{
+            this.$vux.toast.show({
+              showPositionValue: false,
+              text: err.data.info,
+              type: 'warn',
+              position: 'middle',
+              time:1000
+            })
+          })
         }
       }
     }
