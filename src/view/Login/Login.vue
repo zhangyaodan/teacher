@@ -23,9 +23,9 @@
           <div class="goRegister">
             分享 <router-link  tag="span"  :to="{path:'/Register'}">注册</router-link>
           </div>
-          <div class="forgetPass">
+          <router-link tag="div"  :to="{path:'/ForgetPassword'}" class="forgetPass"  >
             忘记密码？
-          </div>
+          </router-link>
         </div>
         <!--登陆按钮-->
         <div class="login" @click="goLogin">

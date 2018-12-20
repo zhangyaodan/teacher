@@ -7,7 +7,8 @@
 * */
 import http from './http';
 import qs from 'qs';
-
+import vue from 'vue'
+import router from '@/router'
 //有的请求需要用户认证，视情况而定
 const getConfig = function (auth) {
   let config = {}
@@ -40,7 +41,14 @@ var index = {
       http.post(url, qs.stringify(data))
         .then(res =>{
           if (res.code === -40666) {
-            alert('已经在别的地方登陆')
+            vue.$vux.toast.show({
+              showPositionValue: false,
+              text: res.info,
+              type: 'text',
+              position: 'middle',
+              time:1000
+            })
+            router.push('/Login')
             return
           }
           resolve(res)

@@ -15,9 +15,9 @@
       <div class="inputItem">
         <div class="leftIcon"></div>
         <input placeholder="短信验证码" type="text"  v-model="code">
-        <div  class="rightIcon rightTitle" @click="sendCode">
-          <span v-if="codeShow">发送验证码</span>
-          <span v-else>{{timeNum}}s</span>
+        <div  class="rightIcon rightTitle" >
+          <span v-if="codeShow" @click="sendCode">发送验证码</span>
+          <span v-else>{{timeNum}}&nbsp;s</span>
         </div>
       </div>
       <!--输入密码-->
@@ -31,7 +31,8 @@
       <!--用户服务协议-->
       <div class="agreement">
         <input type="checkbox">
-        <router-link tag="span"  :to="{path:'/Agreement'}">已阅读并同意《用户服务协议》</router-link>
+        <span @click="toShowProtocol">已阅读并同意《用户服务协议》</span>
+        <!-- <router-link tag="span" :to="{path:'/Agreement'}"></router-link> -->
       </div>
       <!--注册按钮-->
       <div class="goRegister" @click="goRegister">
@@ -39,17 +40,20 @@
       </div>
     </div>
     <router-link tag="div" :to="{path:'/Login'}" class="toLogin">已有账号，去 <span>登陆</span></router-link>
+    <!--协议-->
+    <Agreement></Agreement>
   </div>
 </template>
 
 <script>
   import userCard from '@/components/login/userCard'
   import { mapState, mapActions, mapMutations } from 'vuex';
-
+  import Agreement from '@/view/Mine/Agreement.vue'
     export default {
         name: "Register",
       components:{
-          userCard
+          userCard,
+          Agreement
       },
       data(){
         return{
@@ -70,6 +74,11 @@
           'registerTeacher',
           'sendUpdatePassMsg'
         ]),
+        ...mapMutations(['SETSHOWPROTOCOL']),
+        // 显示协议
+        toShowProtocol() {
+          this.SETSHOWPROTOCOL(true);
+        },
         // 发送验证码
         sendCode(){
           // 开启倒计时读秒

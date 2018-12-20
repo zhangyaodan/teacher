@@ -48,6 +48,7 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
   import { Confirm } from 'vux'
     export default {
         name: "SetUp",
@@ -60,8 +61,10 @@
           }
       },
       methods:{
+        ...mapMutations(['CLEARTOKEN']),
           // 退出当前账号
         signOut(){
+          this.CLEARTOKEN();
           this.$router.push('/Login');
         }
       }

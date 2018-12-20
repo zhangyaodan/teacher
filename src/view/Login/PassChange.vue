@@ -7,7 +7,7 @@
       <!--手机号item-->
       <div class="phoneItem">
         <div class="leftTitle">当前手机号</div>
-        <div class="middleInfo">15972112481</div>
+        <div class="middleInfo">{{mobile}}</div>
       </div>
 
       <!--itemItem-->
@@ -16,7 +16,10 @@
         <div class="middleInfo">
           <input class="codeInput" placeholder="验证码" type="text">
         </div>
-        <div class="rightInfo">获取验证码</div>
+        <div class="rightInfo">
+          <span v-if="codeShow" @click="sendCode">发送验证码</span>
+          <span v-else>{{timeNum}}&nbsp;s</span>
+        </div>
       </div>
 
       <div class="itemItem">
@@ -41,8 +44,59 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
-        name: "PassChange"
+        name: "PassChange",
+      data(){
+          return {
+            codeShow:true,  //默认发送验证码显示
+            timeNum:60,    //默认倒计时从60开始
+            timeOut:null,    //计时器
+            newpass:'',   //新密码
+            repass:'',  //重复密码
+            code:'',   //验证码
+            prphone:'86',  //区号
+          }
+      },
+      methods:{
+        ...mapActions([
+          'sendUpdatePassMsg'
+        ]),
+        // 发送验证码
+        sendCode(){
+          // 开启倒计时读秒
+          this.codeShow = false
+          // 开启计时器
+          this.startTime()
+          // 发送手机号获取code
+          let obj = {
+            mobile:this.mobile,
+            prphone:this.prphone
+          }
+          this.sendUpdatePassMsg(obj)
+        },
+        // 开启计时器
+        startTime(){
+          let that = this
+          this.timeOut = setInterval(function(){
+            if(that.timeNum>0){
+              that.timeNum--
+            }else{
+              that.codeShow = true
+              that.clearTime()
+            }
+          },1000)
+        },
+        // 消除计时器
+        clearTime(){
+          window.clearInterval(this.timeOut)
+        },
+      },
+      computed:{
+        ...mapState({
+          mobile: ({ login }) => login.mobile,
+        })
+      },
     }
 </script>
 

@@ -3,10 +3,20 @@ import qs from "qs";
 import sha1 from "sha1";
 import md5 from 'md5';
 import store from '@/vuex';
+import vue from 'vue'
 function getStr(arr, key, starttime, token) {
   var tostr = arr ? getStrings(arr, "") : "";
   return md5(sha1(md5(tostr) + md5(key) + starttime) + token);
 }
+
+
+// 设置加密忽略列表
+const noEncryptUrl = [
+  'index/Login/login.html',
+  'teacher/Teacher/sendUpdatePassMsg.html',
+  'teacher/Login/registerTeacher.html',
+  'index/Login/getPublicKey.html'
+]
 
 function getStrings111(data, str) {
   for (var x in data) {
@@ -94,25 +104,30 @@ http.interceptors.request.use(config =>{
     // return config;
 
     // 当前时间戳
-    var starttime = Date.parse(new Date());
+
     // get请求进行地址编码
     if (config.method == "get") {
       config.url = encodeURI(config.url);
     }
 
-    console.log(11111111111111111111111,store);
-    if (localStorage.getItem("userinfo") == null || localStorage.getItem("userinfo") == "" ||
-      localStorage.getItem("key") == null || localStorage.getItem("key") == "") {
-      window.localStorage.removeItem("userinfo");
-      window.localStorage.removeItem("key");
-    } else {
-      var token = JSON.parse(window.localStorage.getItem("userinfo")).token;
-      var data = qs.parse(config.data);
-
-      config.headers.common["sign"] = getStr(data, localStorage.getItem("key"), starttime, token);
+    // 登陆后的token
+    let token = store.state.login.token;
+    let key = store.state.login.key;
+    let starttime = Date.parse(new Date());
+    // console.log(config.url.substring(config.baseUrl.length));
+  if (noEncryptUrl.indexOf(config.url.substring(config.baseURL.length)) < 0) {
+    if (token!=='' && key!=='') {
+      console.log('用户已经登陆成功！')
+      let  data = qs.parse(config.data);
+      config.headers.common["sign"] = getStr(data, key, starttime, token);
       config.headers.common["token"] = String(token);
       config.headers.common["starttime"] = String(starttime);
+      console.log(config);
+    }else{
+      console.log('您还没有登陆')
     }
+  }
+
     return config;
   },
   error =>{
@@ -130,12 +145,15 @@ http.interceptors.response.use(
     if (response.code == -40666) {
       count = count + 1
       if (count == 1) {
-        alert(response.data.info)
+        vue.$vux.toast.show({
+          showPositionValue: false,
+          text: response.data.info,
+          type: 'text',
+          position: 'middle',
+          time:1000
+        })
       }
       setTimeout(function () {
-        window.localStorage.removeItem("userinfo");
-        window.localStorage.removeItem("key");
-        // window.location.href = location.origin + "/admin/login/login.html";
         window.location.href = location.origin + "/admin/#/login";
       }, 1500);
     } else {

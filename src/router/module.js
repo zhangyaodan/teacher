@@ -9,7 +9,9 @@ import Personal from '@/view/Login/Personal.vue'
 import LayoutChange from '@/view/Login/LayoutChange.vue'
 import PhoneChange from '@/view/Login/PhoneChange.vue'
 import PassChange from '@/view/Login/PassChange.vue'
-// 我的
+import ForgetPassword from '@/view/Login/ForgetPassword';
+
+// 我的v
 import SetUp from '@/view/Mine/SetUp.vue'
 import Agreement from '@/view/Mine/Agreement.vue'
 // 首页
@@ -50,6 +52,11 @@ export const module = [
     path:'/PhoneChange',
     name:'修改手机号',
     component:PhoneChange
+  },
+  {
+    path:'/ForgetPassword',
+    name:'找回密码',
+    component:ForgetPassword
   },
   {
     path:'/PassChange',

@@ -6,24 +6,34 @@ import {randomString,wrap_encrypt} from '@/utils'
 const ranString = randomString(10)   //随机字符串
 export default {
   state: {
-      publicKey: '',
-      // 切换的时候 这里会变成官方的token
-      token: '',
-      key: ranString,
+      publicKey: '',   //公钥
+      token: '',      //登陆token
+      key: ranString,   //本地存储key
+      mobile:'',     //用户登录的手机号
       account: '',
       companyfullname: '',
       ico: '',
       userico: '',
       rootlist: '',
-      // 切换的时候 这里会变成官方的角色
-      role: '',
-      isHQ: false,
-      cookies: {}
   },
   mutations: {
+    // 存储公钥
     SETPUBLICKEY(state, data) {
       state.publicKey = data
     },
+    // 存储登陆token
+    SETTOKEN(state, data) {
+      state.token = data
+    },
+    //清空token
+    CLEARTOKEN(state, data) {
+      state.token = ''
+    },
+    // 存储用户手机号
+    SETMOBILE(state,data){
+      console.log(data,333333333333333)
+      state.mobile = data
+    }
   },
   actions: {
     // 登陆操作
@@ -33,9 +43,14 @@ export default {
         dispatch('getPublicKey').then((res) => {
           // 登陆需要的前端生成的key
           payload.key = state.key;
+          console.log(state.publicKey,433333344)
           // 获取数据成功后登陆
           http.post(path.login,{data:wrap_encrypt(JSON.stringify(payload),state.publicKey)}).then(res => {
             if (res.code !== 0) return reject(res)
+            // 存储token
+            commit('SETTOKEN', res.data.token)
+            // 存储手机号
+            commit('SETMOBILE', payload.username)
             resolve(res)
           }).catch(err => {
             reject(err)

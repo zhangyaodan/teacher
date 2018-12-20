@@ -3,9 +3,12 @@ import http from 'http'
 import path from 'http/Path'
 export default {
   state: {
+    isShowProtocol: false
   },
   mutations: {
-
+    SETSHOWPROTOCOL(state, data) {
+      state.isShowProtocol = data
+    }
   },
   actions: {
     // 获取验证码

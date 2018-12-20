@@ -34,6 +34,7 @@
 </template>
 
 <script>
+    import { mapState, mapActions, mapMutations } from 'vuex';
     import mineCard from '@/components/home/mineCard.vue'     //头部卡片
     export default {
         name: "Home",
@@ -42,10 +43,22 @@
         },
       data(){
           return{
+            pagenum:1,   //默认请求第一页
           }
       },
       created(){
-
+        // 获取今日陪练信息
+        let obj = {
+          date:'',
+          datecode:2,
+          pagenum:this.pagenum
+        }
+        this.getLessonsByall(obj)
+      },
+      methods:{
+        ...mapActions([
+          'getLessonsByall'
+        ]),
       }
     }
 </script>
