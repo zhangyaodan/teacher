@@ -36,7 +36,6 @@ var index = {
       })
   },
   post:function (url,data,success,fail) {
-    console.log(url);
     return new Promise((resolve, reject) => {
       http.post(url, qs.stringify(data))
         .then(res =>{

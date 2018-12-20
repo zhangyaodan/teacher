@@ -1,11 +1,13 @@
+
 export const randomNum = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 // 登录时加密使用
 export const wrap_encrypt = (content, publickey) => {
-  var encryptobj = new JSEncrypt();
-  encryptobj.setPublicKey(publickey);
+
+      var encryptobj = new JSEncrypt();
+      encryptobj.setPublicKey(publickey);
 
   var result = '',
     chunk;

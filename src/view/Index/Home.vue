@@ -45,13 +45,7 @@
           }
       },
       created(){
-        this.$vux.toast.show({
-          showPositionValue: false,
-          text: '您已在其他端登陆，请重新登陆!',
-          type: 'warn',
-          position: 'middle',
-          time:1000
-        })
+
       }
     }
 </script>

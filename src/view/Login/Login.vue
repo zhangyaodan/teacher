@@ -57,10 +57,11 @@
           // 登陆
         goLogin(){
           let obj = {
-            username: this.username,
-            password: this.password,
-            type:'1',
-            source:'app',
+              username: this.username,
+              password: this.password,
+              type:'1',
+              source:'app',
+              organid:2
           }
           this.handleLogin(obj).then(data=>{
             this.$vux.toast.show({

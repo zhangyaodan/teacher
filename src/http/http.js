@@ -2,6 +2,7 @@ import http from "axios";
 import qs from "qs";
 import sha1 from "sha1";
 import md5 from 'md5';
+import store from '@/vuex';
 function getStr(arr, key, starttime, token) {
   var tostr = arr ? getStrings(arr, "") : "";
   return md5(sha1(md5(tostr) + md5(key) + starttime) + token);
@@ -99,6 +100,7 @@ http.interceptors.request.use(config =>{
       config.url = encodeURI(config.url);
     }
 
+    console.log(11111111111111111111111,store);
     if (localStorage.getItem("userinfo") == null || localStorage.getItem("userinfo") == "" ||
       localStorage.getItem("key") == null || localStorage.getItem("key") == "") {
       window.localStorage.removeItem("userinfo");

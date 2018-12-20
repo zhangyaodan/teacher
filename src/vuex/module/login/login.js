@@ -1,7 +1,8 @@
 
 import http from 'http'
 import path from 'http/Path'
-import {randomString} from '@/utils'
+import {randomString,wrap_encrypt} from '@/utils'
+
 const ranString = randomString(10)   //随机字符串
 export default {
   state: {
@@ -33,7 +34,7 @@ export default {
           // 登陆需要的前端生成的key
           payload.key = state.key;
           // 获取数据成功后登陆
-          http.post(path.login,payload).then(res => {
+          http.post(path.login,{data:wrap_encrypt(JSON.stringify(payload),state.publicKey)}).then(res => {
             if (res.code !== 0) return reject(res)
             resolve(res)
           }).catch(err => {

@@ -6,6 +6,9 @@ import router from './router'
 import store from './vuex'
 import 'normalize.css'    //css初始化
 import 'lib-flexible'     //移动端自适应
+import {
+  JSEncrypt
+} from 'jsencrypt'; //登录加密
 import '@/assets/css/layout.css'
 import headerBack from '@/components/headerBack.vue'     //头部返回组件 常用
 import betterScroll from '@/components/better-scroll.vue'     //头部返回组件 常用
