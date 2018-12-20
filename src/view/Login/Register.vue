@@ -120,7 +120,7 @@
           }).catch(err=>{
             this.$vux.toast.show({
               showPositionValue: false,
-              text: err.data.info,
+              text: err.info,
               type: 'warn',
               position: 'middle',
               time:1000

@@ -8,12 +8,12 @@
         <!--输入手机号-->
         <div class="inputItem">
           <div class="leftIcon"></div>
-          <input placeholder="请输入手机号" v-model="mobile" type="text">
+          <input placeholder="请输入手机号" v-model="username" type="text">
         </div>
         <!--输入密码-->
         <div class="inputItem">
           <div  class="leftIcon"></div>
-          <input placeholder="请输入登录密码" v-model="passwd" :type="eyeType?'text':'password'">
+          <input placeholder="请输入登录密码" v-model="password" :type="eyeType?'text':'password'">
           <div class="rightIcon" @click="eyeType=!eyeType">
             <div :class="{'openEye':eyeType,'closeEye':!eyeType}"></div>
           </div>
@@ -46,36 +46,36 @@
       data(){
         return{
           eyeType:false,      //默认隐藏密码
-          mobile:'',          //手机号
-          passwd:'',          //密码
+          username:'',          //手机号
+          password:'',          //密码
         }
       },
       methods:{
         ...mapActions([
-          'login'
+          'handleLogin'
         ]),
           // 登陆
         goLogin(){
           let obj = {
-            mobile:this.mobile,
-            passwd:this.passwd,
-            domain:'mls'
+            username: this.username,
+            password: this.password,
+            type:'1',
+            source:'app',
           }
-          this.login(obj).then(data=>{
+          this.handleLogin(obj).then(data=>{
             this.$vux.toast.show({
               showPositionValue: false,
               text: '登陆成功',
-              type: 'success',
+              type: 'text',
               position: 'middle',
               time:1000
             })
             this.$router.push('/')
           }).catch(err=>{
-            console.log(err);
             this.$vux.toast.show({
               showPositionValue: false,
               text: err.info,
-              type: 'warn',
+              type: 'text',
               position: 'middle',
               time:1000
             })

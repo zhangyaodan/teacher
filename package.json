@@ -15,11 +15,13 @@
   "dependencies": {
     "better-scroll": "^1.13.2",
     "lib-flexible": "^0.3.2",
+    "md5": "^2.2.1",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.11.0",
     "px2rem-loader": "^0.1.9",
     "qs": "^6.6.0",
     "sass-loader": "^7.1.0",
+    "sha1": "^1.1.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

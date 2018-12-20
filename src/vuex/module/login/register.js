@@ -1,5 +1,6 @@
 // 这里对文件进行一个说明
-import { register } from '@/http'
+import http from 'http'
+import path from 'http/Path'
 export default {
   state: {
   },
@@ -9,11 +10,10 @@ export default {
   actions: {
     // 获取验证码
     sendUpdatePassMsg({ state, commit }, payload) {
-      const fn = register.sendUpdatePassMsg
       return new Promise((resolve, reject) => {
-        fn(payload).then(res => {
+        http.post(path.sendUpdatePassMsg,payload).then(res => {
           if (res.data.code !== 0) return reject(res)
-          resolve(res.data.data)
+          resolve(res)
         }).catch(err => {
           reject(err)
         })
@@ -21,11 +21,11 @@ export default {
     },
     // 教师注册
     registerTeacher({ state, commit }, payload) {
-      const fn = register.registerTeacher
       return new Promise((resolve, reject) => {
-        fn(payload).then(res => {
-          if (res.data.code !== 0) return reject(res)
-          resolve(res.data.data)
+        http.post(path.registerTeacher,payload).then(res => {
+          console.log(res);
+          if (res.code !== 0) return reject(res)
+          resolve(res)
         }).catch(err => {
           reject(err)
         })
