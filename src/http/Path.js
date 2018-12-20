@@ -4,5 +4,9 @@ export default {
   'registerTeacher':'teacher/Login/registerTeacher.html',   //注册
   'getPublicKey':'index/Login/getPublicKey.html',    //获取公钥
   'getLessonsByall':'appteacher/PersonalCourse/getLessonsByall.html',  //今日陪练
-  'resetTeacherPass':'appteacher/Teacher/resetTeacherPass',   //修改密码
+  /**
+   * 个人中心
+   * */
+  'updatePass':'appteacher/Teacher/updatePass.html',    //修改密码
+  'getTeachMs':'appteacher/Personal/getTeachMsg.html'   //个人资料
 }

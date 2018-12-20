@@ -13,7 +13,10 @@
                 <div class="middleInfo">
                     <input placeholder="短信验证码" type="text">
                 </div>
-                <div class="rightInfo">获取验证码</div>
+                <div class="rightInfo">
+                  <span v-if="codeShow" @click="sendCode">发送验证码</span>
+                  <span v-else>{{timeNum}}&nbsp;s</span>
+                </div>
             </div>
             <!--输入密码-->
             <div class="itemItem">
@@ -31,7 +34,7 @@
     </div>
 </template>
 
-<script> 
+<script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 export default {
     name: '',

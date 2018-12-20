@@ -15,7 +15,7 @@ export default {
     sendUpdatePassMsg({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         http.post(path.sendUpdatePassMsg,payload).then(res => {
-          if (res.data.code !== 0) return reject(res)
+          if (res.code !== 0) return reject(res)
           resolve(res)
         }).catch(err => {
           reject(err)

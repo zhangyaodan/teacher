@@ -10,11 +10,7 @@ export default {
       token: '',      //登陆token
       key: ranString,   //本地存储key
       mobile:'',     //用户登录的手机号
-      account: '',
-      companyfullname: '',
-      ico: '',
-      userico: '',
-      rootlist: '',
+      uid:'',     //老师uid
   },
   mutations: {
     // 存储公钥
@@ -31,8 +27,11 @@ export default {
     },
     // 存储用户手机号
     SETMOBILE(state,data){
-      console.log(data,333333333333333)
       state.mobile = data
+    },
+    // 存储老师id
+    SETUID(state,data){
+      state.uid = data
     }
   },
   actions: {
@@ -43,7 +42,6 @@ export default {
         dispatch('getPublicKey').then((res) => {
           // 登陆需要的前端生成的key
           payload.key = state.key;
-          console.log(state.publicKey,433333344)
           // 获取数据成功后登陆
           http.post(path.login,{data:wrap_encrypt(JSON.stringify(payload),state.publicKey)}).then(res => {
             if (res.code !== 0) return reject(res)
@@ -51,6 +49,8 @@ export default {
             commit('SETTOKEN', res.data.token)
             // 存储手机号
             commit('SETMOBILE', payload.username)
+            // 存储老师id
+            commit('SETUID',res.data.uid)
             resolve(res)
           }).catch(err => {
             reject(err)

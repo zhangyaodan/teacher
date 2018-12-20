@@ -80,22 +80,30 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
         name: "Personal",
       data(){
         return {
-          info:{
-            imageurl:'',  //教师图片
-            prphone:'', //手机号前缀
-            mobile:'', //手机号
-            nickname:'', //老师昵称
-            sex:'',  //性别
-            birth:'', //生日
-            profile:'', //个人简介
-          }
         }
       },
+      created(){
+          let obj = {
+            teachid:this.uid
+          }
+        // 获取个人信息
+        this.getTeachMs(obj);
+      },
       methods:{
+        ...mapActions([
+          'getTeachMs'
+        ])
+      },
+      computed:{
+        ...mapState({
+          uid:({login})=>login.uid,
+          info:({personal}) => personal.info
+        })
       }
     }
 </script>

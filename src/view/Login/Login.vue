@@ -100,7 +100,6 @@
         font-size:0.37rem;
         font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(193,194,200,1);
         line-height:1.20rem;
       }
       .inputItem{

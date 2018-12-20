@@ -14,7 +14,7 @@
       <div class="itemItem">
         <div class="leftTitle">输入验证码</div>
         <div class="middleInfo">
-          <input class="codeInput" placeholder="验证码" type="text">
+          <input class="codeInput" v-model="code" placeholder="验证码" type="text">
         </div>
         <div class="rightInfo">
           <span v-if="codeShow" @click="sendCode">发送验证码</span>
@@ -25,20 +25,20 @@
       <div class="itemItem">
         <div class="leftTitle">新密码</div>
         <div class="middleInfo">
-          <input placeholder="请输入新密码" type="text">
+          <input placeholder="请输入新密码"  v-model="newpass" type="text">
         </div>
       </div>
 
       <div class="itemItem">
         <div class="leftTitle">确认密码</div>
         <div class="middleInfo">
-          <input placeholder="请再次输入新密码" type="text">
+          <input placeholder="请再次输入新密码"  v-model="repass" type="text">
         </div>
       </div>
       <!--密码提示-->
       <div class="passInfo">密码至少为6位，支持中英文字母、数字、特殊字符</div>
       <!--确定-->
-      <div class="saveOk">确定</div>
+      <div class="saveOk" @click="updatePassword">确定</div>
     </div>
   </div>
 </template>
@@ -60,7 +60,8 @@
       },
       methods:{
         ...mapActions([
-          'sendUpdatePassMsg'
+          'sendUpdatePassMsg',
+          'updatePass'
         ]),
         // 发送验证码
         sendCode(){
@@ -91,6 +92,20 @@
         clearTime(){
           window.clearInterval(this.timeOut)
         },
+        // 修改密码
+        updatePassword(){
+          let obj = {
+            mobile:this.mobile,
+            code:this.code,
+            newpass:this.newpass,
+            repass:this.repass
+          }
+          this.updatePass(obj).then(data=>{
+            this.$vux.toast.text('密码修改成功')
+          }).catch(err=>{
+            this.$vux.toast.text(err.info)
+          })
+        }
       },
       computed:{
         ...mapState({
@@ -132,7 +147,6 @@
           font-size:0.37rem;
           font-family:PingFangSC-Regular;
           font-weight:400;
-          color:rgba(193,194,200,1);
           line-height:0.48rem;
 
         }
