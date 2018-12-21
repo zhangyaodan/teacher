@@ -40,20 +40,16 @@ var index = {
     return new Promise((resolve, reject) => {
       http.post(url, qs.stringify(data))
         .then(res =>{
+          console.log(3333333333333333333,res);
           if (res.code === -40666) {
-            vue.$vux.toast.show({
-              showPositionValue: false,
-              text: res.info,
-              type: 'text',
-              position: 'middle',
-              time:1000
-            })
+            vue.$toast('您已经在其他端口登陆，请重新登陆')
             router.push('/Login')
             return
           }
           resolve(res)
         },err=>{
-          console.log('http error===>', err)
+          console.log(33333333333333333333,err);
+          // console.log('http error===>', err)
           reject(err)
         })
     })

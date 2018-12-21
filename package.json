@@ -13,21 +13,23 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "better-scroll": "^1.13.2",
     "jsencrypt": "^3.0.0-rc.1",
     "lib-flexible": "^0.3.2",
     "md5": "^2.2.1",
     "mockjs": "^1.0.1-beta3",
+    "moment": "^2.23.0",
     "node-sass": "^4.11.0",
     "px2rem-loader": "^0.1.9",
     "qs": "^6.6.0",
     "sass-loader": "^7.1.0",
     "sha1": "^1.1.1",
+    "vant": "^1.5.0-beta2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-persistedstate": "^2.5.4",
-    "vux": "^2.9.2"
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -36,6 +38,7 @@
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-import": "^1.11.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -76,7 +79,6 @@
     "vue-loader": "^14.2.3",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "vux-loader": "^1.2.9",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",

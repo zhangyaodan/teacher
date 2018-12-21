@@ -118,22 +118,10 @@
             code:this.code
           }
           this.registerTeacher(obj).then(data=>{
-            this.$vux.toast.show({
-              showPositionValue: false,
-              text: '登陆成功',
-              type: 'success',
-              position: 'middle',
-              time:1000
-            })
+            // this.$vux.toast.text('登陆成功')
             this.$router.push('/Personal')
           }).catch(err=>{
-            this.$vux.toast.show({
-              showPositionValue: false,
-              text: err.info,
-              type: 'warn',
-              position: 'middle',
-              time:1000
-            })
+            // this.$vux.toast.text(err.info)
           })
         }
       }

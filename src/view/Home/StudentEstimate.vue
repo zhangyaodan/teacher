@@ -35,8 +35,33 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
-        name: "StudentEstimate"
+        name: "StudentEstimate",
+      data(){
+        return {
+          pagenum:1,  //默认请求第一页
+          limit:20,   //默认一页20条
+          allcommit:1,  //'全部1,好评2，中评3,差评4'
+        }
+      },
+      mounted(){
+        this.studentEstimate()
+      },
+      methods:{
+        ...mapActions([
+          'getAllComment'
+        ]),
+        // 获取学生评价的列表
+        studentEstimate(){
+          let obj = {
+            pagenum:this.pagenum,
+            limit:this.limit,
+            allcommit:this.allcommit
+          }
+          this.getAllComment(obj)
+        }
+      }
     }
 </script>
 

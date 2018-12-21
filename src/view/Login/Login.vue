@@ -43,6 +43,9 @@
       components:{
         userCard
       },
+      created(){
+
+      },
       data(){
         return{
           eyeType:false,      //默认隐藏密码
@@ -56,6 +59,12 @@
         ]),
           // 登陆
         goLogin(){
+          // 加载页面
+          this.$toast.loading({
+            mask: true,
+            message: '登陆中...',
+            duration:10000
+          });
           let obj = {
               username: this.username,
               password: this.password,
@@ -64,22 +73,13 @@
               organid:2
           }
           this.handleLogin(obj).then(data=>{
-            this.$vux.toast.show({
-              showPositionValue: false,
-              text: '登陆成功',
-              type: 'text',
-              position: 'middle',
-              time:1000
-            })
+            // 关闭加载页面
+            this.$toast.clear()
+            this.$toast('登陆成功')
             this.$router.push('/')
           }).catch(err=>{
-            this.$vux.toast.show({
-              showPositionValue: false,
-              text: err.info,
-              type: 'text',
-              position: 'middle',
-              time:1000
-            })
+            console.log(err)
+            this.$toast(err.info)
           });
         }
       }

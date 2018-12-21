@@ -9,10 +9,10 @@
     <div class="grayBlock"></div>
     <!--内容展示-->
     <div>
-      <textarea v-model="info"  :maxlength="conNum" class="textarea" name="" id=""></textarea>
+      <textarea autofocus="autofocus" v-model="info"  :maxlength="conNum" class="textarea" name="" id=""></textarea>
     </div>
     <div class="numBlock">
-      <span v-if="info!=='无'">{{info.length}}</span>
+      <span v-if="info!=='无'">{{info?info.length:0}}</span>
       <span v-else>0</span>
       / {{conNum}}
     </div>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
         name: "LayoutChange",
       data(){
@@ -31,9 +32,25 @@
           }
       },
       methods:{
+        ...mapActions([
+          'updateTeacherMsg'
+        ]),
           // 保存数据
         saveInfo(){
-          console.log(2222222);
+          let obj = {};
+          // 如果是昵称修改
+          if(this.conNum==6){
+            obj.nickname = this.info;
+          }else{
+            // 个性签名修改
+            obj.profile = this.info;
+          }
+          console.log(obj)
+          this.updateTeacherMsg(obj).then(res=>{
+            this.$toast('修改成功')
+          }).catch(err=>{
+            this.$toast(err.info)
+          })
         }
       },
       created(){
@@ -45,7 +62,7 @@
           this.conNum = 25;
         }
         // 内容展示
-        this.info = this.$route.query.info==''?'无':this.$route.query.info;
+        this.info = this.$route.query.info=='' || !this.$route.query.info?'无':this.$route.query.info;
       }
     }
 </script>

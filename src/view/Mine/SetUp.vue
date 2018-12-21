@@ -31,29 +31,16 @@
     </div>
     <!--退出-->
     <div class="signOut" >
-      <div class="greenBlock" @click="signOutStatus=true">退出当前账号</div>
-    </div>
-
-    <!--退出当前账号-->
-    <div >
-      <confirm v-model="signOutStatus"  @on-confirm="signOut">
-               <!--:title=""-->
-               <!--@on-confirm="onConfirm"-->
-               <!--@on-show="onShow"-->
-               <!--@on-hide="onHide">-->
-        <p class="signOutInfo">确定退出吗？</p>
-      </confirm>
+      <div class="greenBlock" @click="signOut">退出当前账号</div>
     </div>
   </div>
 </template>
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex';
-  import { Confirm } from 'vux'
     export default {
         name: "SetUp",
       components: {
-        'confirm':Confirm
       },
       data(){
           return {
@@ -64,8 +51,15 @@
         ...mapMutations(['CLEARTOKEN']),
           // 退出当前账号
         signOut(){
-          this.CLEARTOKEN();
-          this.$router.push('/Login');
+          this.$dialog.confirm({
+            message: '确定退出吗？'
+          }).then(() => {
+            this.CLEARTOKEN();
+            this.$router.push('/Login');
+          }).catch(() => {
+            // on cancel
+          });
+
         }
       }
     }

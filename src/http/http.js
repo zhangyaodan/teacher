@@ -114,8 +114,11 @@ http.interceptors.request.use(config =>{
     let token = store.state.login.token;
     let key = store.state.login.key;
     let starttime = Date.parse(new Date());
+    console.log(config.url)
+    console.log(config.baseURL)
     // console.log(config.url.substring(config.baseUrl.length));
-  if (noEncryptUrl.indexOf(config.url.substring(config.baseURL.length)) < 0) {
+  // if (noEncryptUrl.indexOf(config.url.substring(config.baseURL.length)) < 0) {
+  if (noEncryptUrl.indexOf(config.url) < 0) {
     if (token!=='' && key!=='') {
       console.log('用户已经登陆成功！')
       let  data = qs.parse(config.data);
@@ -145,13 +148,13 @@ http.interceptors.response.use(
     if (response.code == -40666) {
       count = count + 1
       if (count == 1) {
-        vue.$vux.toast.show({
-          showPositionValue: false,
-          text: response.data.info,
-          type: 'text',
-          position: 'middle',
-          time:1000
-        })
+        // vue.$vux.toast.show({
+        //   showPositionValue: false,
+        //   text: response.data.info,
+        //   type: 'text',
+        //   position: 'middle',
+        //   time:1000
+        // })
       }
       setTimeout(function () {
         window.location.href = location.origin + "/admin/#/login";

@@ -36,7 +36,7 @@
       </div>
     </div>
     <!--生日-->
-    <div class="itemItem conPadding">
+    <div class="itemItem conPadding" @click="timeShow=true">
       <div class="leftTitle">生日</div>
       <div class="imgMiddle">
         <span>{{info.birth}}</span>
@@ -47,7 +47,7 @@
     <!--手机号-->
 
 
-    <router-link tag="div" class="itemItem conPadding" :to="{path:'/PhoneChange',query:{prphone:info.prphone,mobile:info.mobile}}">
+    <router-link tag="div" class="itemItem conPadding" :to="{path:'/PhoneChange'}">
       <div class="leftTitle">手机号</div>
       <div class="imgMiddle">
         <span>+{{info.prphone}} {{info.mobile}}</span>
@@ -56,7 +56,7 @@
       </div>
     </router-link>
     <!--修改密码-->
-    <router-link tag="div" class="itemItem conPadding" :to="{path:'/PassChange',query:{prphone:info.prphone,mobile:info.mobile}}">
+    <router-link tag="div" class="itemItem conPadding" :to="{path:'/PassChange'}">
       <div class="leftTitle">修改密码</div>
       <div class="imgMiddle">
         <span></span>
@@ -76,28 +76,63 @@
     <div class="signatureInfo">
       {{info.profile}}
     </div>
+
+    <van-popup v-model="timeShow" position="bottom" :overlay="true">
+      <van-datetime-picker @cancel="timeShow=false"	   @confirm="selecteBirth"
+                v-model="currentDate"
+                type="date"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex';
+  import moment from 'moment'
     export default {
         name: "Personal",
       data(){
         return {
+          currentDate: new Date(),
+          timeShow:false,  //默认选择时间框不显示
         }
       },
       created(){
-          let obj = {
-            teachid:this.uid
-          }
-        // 获取个人信息
-        this.getTeachMs(obj);
+        // 获取老师信息
+        this.getTeacherInfo()
       },
       methods:{
         ...mapActions([
-          'getTeachMs'
-        ])
+          'getTeachMs',
+          'updateTeacherMsg'
+        ]),
+        // 获取老师信息
+        getTeacherInfo(){
+          let obj = {
+            teachid:this.uid
+          }
+          // 获取个人信息
+          this.getTeachMs(obj);
+        },
+        // 选择生日
+        selecteBirth(){
+          this.timeShow = false
+          this.currentDate = moment(this.currentDate).format("YYYY-MM-DD")
+          let obj ={
+            birth:this.currentDate
+          }
+          this.updateTeacherInfo(obj)
+        },
+        // 修改用户信息
+        updateTeacherInfo(obj){
+          this.updateTeacherMsg(obj).then(res=>{
+            this.$toast('修改成功')
+            // 再次获取信息
+            this.getTeacherInfo()
+          }).catch(err=>{
+            this.$toast(err.info)
+          })
+        }
       },
       computed:{
         ...mapState({

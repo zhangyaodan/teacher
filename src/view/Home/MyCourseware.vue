@@ -12,11 +12,41 @@
 
 <script>
   import courseWareItem from '@/components/home/courseWareItem.vue'
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
         name: "MyCourseware",
       components:{
         courseWareItem
-      }
+      },
+      data(){
+          return {
+            pagenum:1,   //当前页码
+          }
+      },
+      mounted(){
+        // 获取课件列表
+        this.getFileList();
+      },
+      methods:{
+        ...mapActions([
+          'getFileList'
+        ]),
+        // 获取课件列表
+        getFileList(){
+          let obj ={
+            showname:'',
+            filetype:1,   //0机构使用  1老师使用 2官方私有 3官方公共
+            pagenum:1,
+            limit:10,
+            fatherid:0,     //文件夹id  默认为0
+            teahcerid:this.uid
+          }
+          this.getFileList(obj);
+        }
+      },
+      ...mapState({
+        uid:({login})=>login.uid,
+      })
     }
 </script>
 

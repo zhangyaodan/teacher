@@ -12,11 +12,12 @@ import {
 import '@/assets/css/layout.css'
 import headerBack from '@/components/headerBack.vue'     //头部返回组件 常用
 import betterScroll from '@/components/better-scroll.vue'     //头部返回组件 常用
-import  { ToastPlugin } from 'vux'
-Vue.use(ToastPlugin)// 默认参数
 Vue.component('headerBack',headerBack)          //全局组件
 Vue.component('betterScroll',betterScroll)          //全局组件
+import Vant from 'vant';
+import 'vant/lib/index.css';
 
+Vue.use(Vant);
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
@@ -24,10 +25,6 @@ new Vue({
   el: '#app',
   store,
   router,
-
-
-
-
   components: { App },
   template: '<App/>'
 })
