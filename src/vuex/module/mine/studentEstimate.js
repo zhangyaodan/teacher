@@ -3,12 +3,11 @@ import http from 'http'
 import path from 'http/Path'
 export default {
   state: {
-    info:{}
+    listInfo:[]
   },
   mutations: {
-    // 存储老师信息
-    SAVEINFO(state, data) {
-      state.info = data;
+    SAVESTUDENTINFO(state,data){
+      state.listInfo = data
     }
   },
   actions: {
@@ -17,6 +16,7 @@ export default {
       return new Promise((resolve, reject) => {
         http.post(path.getAllComment,payload).then(res => {
           if (res.code !== 0) return reject(res)
+          commit('SAVESTUDENTINFO',res.data)
           resolve(res)
         }).catch(err => {
           reject(err)

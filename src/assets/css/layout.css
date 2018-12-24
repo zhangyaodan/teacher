@@ -1,30 +1,34 @@
 /*灰色地带*/
-.grayBlock{
-  height:0.24rem;
-  background:rgba(245,246,250,1);
+
+.grayBlock {
+    height: 0.24rem;
+    background: rgba(245, 246, 250, 1);
 }
-div{
-  border-sizing:border-box;
+
+div {
+    border-sizing: border-box;
 }
 
 .weui-toast {
-  position: fixed;
-  z-index: 5001;
-  min-height: 7.6em;
-  top: 180px;
-  width:auto!important;
-  left: 50%;
-  margin-left: -3.8em;
-  background: rgba(17, 17, 17, 0.7);
-  text-align: center;
-  border-radius: 5px;
-  color: #FFFFFF;
+    position: fixed;
+    z-index: 5001;
+    min-height: 7.6em;
+    top: 180px;
+    width: auto!important;
+    left: 50%;
+    margin-left: -3.8em;
+    background: rgba(17, 17, 17, 0.7);
+    text-align: center;
+    border-radius: 5px;
+    color: #FFFFFF;
 }
+
 .weui-toast_text .weui-toast__content {
-  margin: 0;
-  padding: 10px!important;
-  border-radius: 15px;
+    margin: 0;
+    padding: 10px!important;
+    border-radius: 15px;
 }
-.weui-toast.vux-toast-middle{
-  padding:0px 10px;
+
+.weui-toast.vux-toast-middle {
+    padding: 0px 10px;
 }

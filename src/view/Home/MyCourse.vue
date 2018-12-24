@@ -29,8 +29,30 @@
 
 
 <script>
+  import { mapState, mapActions, mapMutations } from 'vuex';
     export default {
         name: "MyCourse",
+      mounted(){
+          this.getCourseList()
+      },
+      methods:{
+        ...mapActions([
+          'getSchedulingList'
+          ]
+        ),
+          // 获取课程列表
+          getCourseList(){
+            let obj = {
+
+            }
+            this.getSchedulingList()
+          }
+      },
+      computed:{
+        ...mapState({
+          uid:({login})=>login.uid
+        })
+      }
     }
 </script>
 

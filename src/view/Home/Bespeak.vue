@@ -35,25 +35,31 @@
         <div class="innerNum defaultNum">08:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">08:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">09:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">09:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">10:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum selectedNum">08:00</div>
+        <div class="innerNum selectedNum">10:30</div>
       </div>
       <div class="numberIndex ">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">11:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">11:30</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">12:00</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">12:30</div>
       </div>
     </div>
     <!--预约时间title-->
@@ -65,28 +71,34 @@
     <!--详细时间-->
     <div class="timeNum">
       <div class="numberIndex ">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">13:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">13:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">14:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">14:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">15:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum selectedNum">08:00</div>
+        <div class="innerNum selectedNum">15:30</div>
       </div>
       <div class="numberIndex ">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">16:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">16:30</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">17:00</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">17:30</div>
       </div>
     </div>
     <!--预约时间title-->
@@ -98,28 +110,40 @@
     <!--详细时间-->
     <div class="timeNum">
       <div class="numberIndex ">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">18:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">18:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">19:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">19:30</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">20:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum selectedNum">08:00</div>
+        <div class="innerNum selectedNum">20:30</div>
       </div>
       <div class="numberIndex ">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">21:00</div>
       </div>
       <div class="numberIndex">
-        <div class="innerNum defaultNum">08:00</div>
+        <div class="innerNum defaultNum">21:30</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">22:00</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">22:30</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">23:00</div>
+      </div>
+      <div class="numberIndex">
+        <div class="innerNum defaultNum">23:30</div>
       </div>
     </div>
 

@@ -6,24 +6,25 @@
        <div class="grayBlock"></div>
        <!--评价标题综合评分-->
        <div class="studentTitle">
-         综合评分：4.8
+         综合评分：{{listInfo.evescore}}
        </div>
 
        <betterScroll class="wrapper">
 
            <!--item-->
-           <div class="estimateItem" v-for="item of 25" >
+           <div class="estimateItem" v-for="item of listInfo.data" >
              <div class="imgItem">
+               <!--<img class="studentImg" :src="item.imageurl" alt="">-->
                <img class="studentImg" src="~@/assets/images/userImg.png" alt="">
-               <div class="studentName">李晓梅</div>
+               <div class="studentName">{{item.nickname}}</div>
                <div class="startOut">
-                 <div v-for="num of 5" :class="['studentStar',num<3?'starBg':'starBorder']"></div>
+                 <div v-for="num of 5" :class="['studentStar',num<=item.score?'starBg':'starBorder']"></div>
                </div>
-               <div class="time">2018-04-20</div>
+               <div class="time">{{item.addtime}}</div>
              </div>
              <!--学生评价内容-->
              <div class="studentInfo">
-               老师讲课深入浅出，知识点讲解很全面，很多疑难问题都得到了解答。儿子说学完这个课程后走路腰不酸腿不疼，上楼梯也不喘气了，真好。
+               {{item.content}}
              </div>
            </div>
 
@@ -61,6 +62,11 @@
           }
           this.getAllComment(obj)
         }
+      },
+      computed:{
+        ...mapState({
+          listInfo:({studentEstimate})=>studentEstimate.listInfo
+        })
       }
     }
 </script>
@@ -87,8 +93,7 @@
       }
       /*item*/
       .estimateItem{
-        height:2.92rem;
-        padding:0.32rem 0.55rem 0.00rem 0.00rem;
+        padding:0.32rem 0.55rem 0.31rem 0.00rem;
         @include  border-1p(rgba(238,238,238,1));
         .imgItem{
           padding-left:0.55rem;

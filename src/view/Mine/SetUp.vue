@@ -113,11 +113,12 @@
         text-align: center;
         margin:0.00rem auto;
         background:linear-gradient(90deg,rgba(39,249,180,1),rgba(11,204,150,1));
-        box-shadow:0.00rem 0.11rem 0.17rem 0.00rem rgba(8,175,128,0.2);
-        border-radius:0.11rem;
         font-size:0.45rem;
         font-weight:bold;
         color:rgba(255,255,255,1);
+        box-shadow:0.00rem 0.11rem 0.17rem 0.00rem rgba(8,175,128,0.2);
+        border-radius:0.11rem;
+
       }
     }
     /*退出提示*/

@@ -40,9 +40,8 @@ var index = {
     return new Promise((resolve, reject) => {
       http.post(url, qs.stringify(data))
         .then(res =>{
-          console.log(3333333333333333333,res);
           if (res.code === -40666) {
-            vue.$toast('您已经在其他端口登陆，请重新登陆')
+            // vue.$toast('您已经在其他端口登陆，请重新登陆')
             router.push('/Login')
             return
           }

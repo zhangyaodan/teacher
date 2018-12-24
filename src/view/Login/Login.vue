@@ -8,15 +8,21 @@
         <!--输入手机号-->
         <div class="inputItem">
           <div class="leftIcon"></div>
-          <input placeholder="请输入手机号" v-model="username" type="text">
+          <input placeholder="请输入手机号" name="phone"  v-validate="'required|phone'"  data-vv-as="手机号" v-model="username" type="text">
+        </div>
+        <div class="errorShow" v-show="errors.has('phone')">
+          <span  class="help is-danger">{{ errors.first('phone') }}</span>
         </div>
         <!--输入密码-->
         <div class="inputItem">
           <div  class="leftIcon"></div>
-          <input placeholder="请输入登录密码" v-model="password" :type="eyeType?'text':'password'">
+          <input placeholder="请输入登录密码" data-vv-as="密码"  v-validate="'required|min:6'" maxlength="16" name="pass"  v-model="password" :type="eyeType?'text':'password'">
           <div class="rightIcon" @click="eyeType=!eyeType">
             <div :class="{'openEye':eyeType,'closeEye':!eyeType}"></div>
           </div>
+        </div>
+        <div class="errorShow" v-show="errors.has('pass')">
+          <span  class="help is-danger">{{ errors.first('pass') }}</span>
         </div>
         <!--注册-->
         <div class="register">
@@ -59,28 +65,35 @@
         ]),
           // 登陆
         goLogin(){
-          // 加载页面
-          this.$toast.loading({
-            mask: true,
-            message: '登陆中...',
-            duration:10000
-          });
-          let obj = {
-              username: this.username,
-              password: this.password,
-              type:'1',
-              source:'app',
-              organid:2
-          }
-          this.handleLogin(obj).then(data=>{
-            // 关闭加载页面
-            this.$toast.clear()
-            this.$toast('登陆成功')
-            this.$router.push('/')
-          }).catch(err=>{
-            console.log(err)
-            this.$toast(err.info)
-          });
+          this.$validator.validate().then(result => {
+            if (!result) {
+              return;
+            }else{
+              // 加载页面
+              this.$toast.loading({
+                mask: true,
+                message: '登陆中...',
+                duration:10000
+              });
+              let obj = {
+                username: this.username,
+                password: this.password,
+                type:'1',
+                source:'app',
+                organid:2
+              }
+              this.handleLogin(obj).then(data=>{
+                // 关闭加载页面
+                this.$toast.clear()
+                this.$toast('登陆成功')
+                this.$router.push('/')
+              }).catch(err=>{
+                console.log(err)
+                this.$toast(err.info)
+              });
+            }
+          })
+
         }
       }
     }
@@ -89,6 +102,13 @@
 <style scoped lang="scss">
   @import "~@/assets/css/mixin";
   .Login{
+    .errorShow{
+      height:0.6rem;
+      line-height:0.6rem;
+      padding-left:0.87rem;
+      color:red;
+      clear:both;
+    }
     /*登陆内容*/
     .loginCon{
       margin-top:-0.89rem;
@@ -136,7 +156,7 @@
       .inputItem:nth-of-type(1)>.leftIcon{
         @include bg-image('~@/assets/icon/login/icon_phone')
       }
-      .inputItem:nth-of-type(2)>.leftIcon{
+      .inputItem:nth-of-type(3)>.leftIcon{
         @include bg-image('~@/assets/icon/login/icon_passWord')
       }
       /*注册*/

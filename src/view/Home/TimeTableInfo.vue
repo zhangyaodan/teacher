@@ -5,15 +5,16 @@
     <!--课件所属班级-->
     <div class="courseInfo">
       <div class="courseName">
-        <span class="courseTitle">考前冲刺班</span>
+        <span class="courseTitle">{{listPeriodinfo.coursename}}</span>
       </div>
+
       <div class="courseItem">
         <div class="itemImg teacherImg"></div>
-        <span class="itemTittle">老师：王大锤</span>
+        <span class="itemTittle">老师：{{LessonsByOne.nickname}}</span>
       </div>
       <div class="courseItem">
         <div class="itemImg courseImg"></div>
-        <span class="itemTittle">课时：课时一</span>
+        <span class="itemTittle">课时：{{listPeriodinfo.periodname}}</span>
       </div>
     </div>
     <!--灰色地带-->
@@ -22,11 +23,11 @@
     <!--课件-->
     <div class="wareInfo">
       <div class="wareTitle">课件</div>
-      <div class="wareItem">Lesson 1 words.ppt</div>
-      <div class="wareItem">Lesson 1 words.ppt</div>
-      <div class="wareItem">Lesson 1 words.ppt</div>
+      <div class="wareItem" v-for="(el, i) in ware.data" :key="i" v-if="ware && ware.data">
+        {{el.showname}}
+      </div>
       <div class="addWare">
-        <div>添加课件</div>
+        <router-link tag="div" :to="{path:'/MyCourseware',query:{fromType:'add'}}">添加课件</router-link>
       </div>
     </div>
 
@@ -39,19 +40,28 @@
       <div class="studentTitle">
         学生
       </div>
-      <template v-for="item of 4">
+      <template v-for="(item,index) of studentlists">
         <div class="studentItem">
-          <img class="studentImg" src="~@/assets/images/userImg.png" alt="">
+          <img class="studentImg" :src="item.imageurl || userPhoto" alt="" @error="imageError">
           <div class="rightCon">
             <div class="leftInfo">
-              <div class="topTittle">李小美 &nbsp;
-                <div class="sexImg"></div>
+              <div class="topTittle">{{item.nickname}} &nbsp;
+                <div class='menImg' v-if="item.sex == 1"></div>
+                <div class='womenImg' v-if="item.sex == 2"></div>
               </div>
-              <div class="bottomTittle">中国 河南 洛阳 18岁</div>
+              <div class="bottomTittle">
+                <span>{{item.country}}</span>
+                &nbsp;&nbsp;
+                <span>{{item.province}}</span>
+                &nbsp;&nbsp;
+                <span>{{item.city}}</span>
+                &nbsp;&nbsp;
+                <span>{{item.age}}岁</span>
+              </div>
             </div>
-            <router-link tag="div" :to="{path:'/Evaluate'}" class="rightBlock">
+            <div class="rightBlock" @click="toRoute(index)">
               <div>评价</div>
-            </router-link>
+            </div>
           </div>
         </div>
       </template>
@@ -61,21 +71,37 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import userPhoto from '@/assets/images/userImg.png'
 export default {
   name: "TimeTableInfo",
+  data() {
+    return {
+      imageError: 'this.src="' + userPhoto + '"',
+      userPhoto,
+      listPeriodinfo: {},
+      studentlists: [],  //学生列表
+      ware: {}
+    }
+  },
   computed: {
     ...mapState({
       LessonsByOne: ({ home }) => home.LessonsByOne
     })
   },
-  created(){
+  created() {
     this.getData()
   },
   methods: {
     ...mapActions([
       'getPeriodinfo'
     ]),
+    ...mapMutations(['SETSTUDENT']),
+    toRoute(index) {
+      this.SETSTUDENT(this.studentlists[index])
+      this.$router.push('/Evaluate')
+    },
+    // 获取课时详情
     getData() {
       let params = {
         'toteachtimeid': this.LessonsByOne.id,
@@ -84,7 +110,25 @@ export default {
         'date': this.LessonsByOne.date
       }
       this.getPeriodinfo(params).then(res => {
-        console.log(res)
+        if (res.code === 0) {
+          console.log(res)
+          let data = res.data;
+          // 课表信息
+          this.listPeriodinfo = data.listPeriodinfo
+          this.studentlists = data.studentlists
+          if (data.ware && data.ware.code === 0) {
+            // 课件信息
+            this.ware = data.ware.data;
+          } else {
+            // 模拟数据
+            this.ware = {};
+            this.ware.data = [{
+              showname: 'sdsd'
+            }, {
+              showname: 'sdsdtcbb.ppt'
+            }];
+          }
+        }
       })
     }
   }
@@ -153,7 +197,6 @@ export default {
       line-height: 1.13rem;
       padding-left: 1.21rem;
       font-size: 0.35rem;
-      font-weight: bold;
       color: rgba(97, 99, 111, 1);
       @include border-1p(rgba(238, 238, 238, 1));
     }
@@ -211,11 +254,17 @@ export default {
             font-size: 0.35rem;
             font-weight: bold;
             color: rgba(52, 54, 60, 1);
-            .sexImg {
+            .womenImg {
               display: inline-block;
               width: 0.35rem;
               height: 0.35rem;
               @include bg-image("~@/assets/icon/sex_woMan");
+            }
+            .menImg {
+              display: inline-block;
+              width: 0.35rem;
+              height: 0.35rem;
+              @include bg-image("~@/assets/icon/sex_man");
             }
           }
           .bottomTittle {

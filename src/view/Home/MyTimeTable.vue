@@ -54,8 +54,8 @@ export default {
   data() {
     return {
       day: '周' + '日一二三四五六'.charAt(new Date().getDay()),  //周几
-      // date: formatDateTime(new Date()),  //年-月-日
-      date: '2018-12-19',
+      date: formatDateTime(new Date()),  //年-月-日
+      // date: '2018-12-19',
       pagenum: 1,   //默认请求第一页
       listArr: []
     }

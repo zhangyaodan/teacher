@@ -14,26 +14,33 @@
       <div class="itemItem">
         <div class="leftTitle">输入验证码</div>
         <div class="middleInfo">
-          <input class="codeInput" v-model="code" placeholder="验证码" type="text">
+          <input name="code"  v-validate="'required|alpha_num'"  data-vv-as="验证码" class="codeInput" v-model="code" placeholder="验证码" type="text">
         </div>
         <div class="rightInfo">
           <span v-if="codeShow" @click="sendCode">发送验证码</span>
           <span v-else>{{timeNum}}&nbsp;s</span>
         </div>
       </div>
-
+      <div class="errorShow" v-show="errors.has('code')">
+        <span  class="help is-danger">{{ errors.first('code') }}</span>
+      </div>
       <div class="itemItem">
         <div class="leftTitle">新密码</div>
         <div class="middleInfo">
-          <input placeholder="请输入新密码"  v-model="newpass" type="text">
+          <input placeholder="请输入新密码" name="newpass"  data-vv-as="密码"  v-validate="'required|min:6'" maxlength="16" v-model="newpass" type="text">
         </div>
       </div>
-
+      <div class="errorShow" v-show="errors.has('newpass')">
+        <span  class="help is-danger">{{ errors.first('newpass') }}</span>
+      </div>
       <div class="itemItem">
         <div class="leftTitle">确认密码</div>
         <div class="middleInfo">
-          <input placeholder="请再次输入新密码"  v-model="repass" type="text">
+          <input placeholder="请再次输入新密码" data-vv-as="新密码"  v-validate="{'required': 'true', 'is': newpass}" name="repeatPass"  v-model="repass" type="text">
         </div>
+      </div>
+      <div class="errorShow" v-show="errors.has('repeatPass')">
+        <span  class="help is-danger">{{ errors.first('repeatPass') }}</span>
       </div>
       <!--密码提示-->
       <div class="passInfo">密码至少为6位，支持中英文字母、数字、特殊字符</div>
@@ -94,17 +101,24 @@
         },
         // 修改密码
         updatePassword(){
-          let obj = {
-            mobile:this.mobile,
-            code:this.code,
-            newpass:this.newpass,
-            repass:this.repass
-          }
-          this.updatePass(obj).then(data=>{
-            this.$vux.toast.text('密码修改成功')
-          }).catch(err=>{
-            this.$vux.toast.text(err.info)
+          this.$validator.validate().then(result => {
+              if (!result) {
+                return;
+              }else{
+                let obj = {
+                  mobile:this.mobile,
+                  code:this.code,
+                  newpass:this.newpass,
+                  repass:this.repass
+                }
+                this.updatePass(obj).then(data=>{
+                  this.$toast('密码修改成功')
+                }).catch(err=>{
+                  this.$toast(err.info)
+                })
+              }
           })
+
         }
       },
       computed:{
@@ -118,6 +132,13 @@
 <style scoped lang="scss">
   @import "~@/assets/css/mixin";
   .passChange{
+    .errorShow{
+      height:0.6rem;
+      line-height:0.6rem;
+      padding-left:0.87rem;
+      color:red;
+      clear:both;
+    }
     .infoCon{
       padding:0.00rem 0.56rem;
       /*手机号item*/
@@ -196,11 +217,17 @@
         line-height: 1.17rem;
         text-align: center;
         margin:0.55rem auto 0.00rem;
-        background:rgba(209,209,209,1);
         border-radius:0.05rem;
+
+        /*background:rgba(209,209,209,1);*/
+        /*font-size:0.45rem;*/
+        /*font-family:PingFangSC-Regular;*/
+        /*font-weight:400;*/
+        /*color:rgba(255,255,255,1);*/
+
+        background:linear-gradient(90deg,rgba(39,249,180,1),rgba(11,204,150,1));
         font-size:0.45rem;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
+        font-weight:bold;
         color:rgba(255,255,255,1);
       }
     }

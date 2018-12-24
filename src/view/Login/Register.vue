@@ -9,31 +9,41 @@
       <!--输入手机号-->
       <div class="inputItem">
         <div class="poneNum">+{{prphone}}</div>
-        <input placeholder="请输入手机号" v-model="mobile" type="text">
+        <input placeholder="请输入手机号"  name="phone"  v-validate="'required|phone'"  data-vv-as="手机号" v-model="mobile" type="text">
+      </div>
+      <div class="errorShow" v-show="errors.has('phone')">
+        <span  class="help is-danger">{{ errors.first('phone') }}</span>
       </div>
       <!--短信验证码-->
       <div class="inputItem">
         <div class="leftIcon"></div>
-        <input placeholder="短信验证码" type="text"  v-model="code">
+        <input placeholder="短信验证码"  name="code"  v-validate="'required|alpha_num'"  data-vv-as="验证码" type="text"  v-model="code">
         <div  class="rightIcon rightTitle" >
           <span v-if="codeShow" @click="sendCode">发送验证码</span>
           <span v-else>{{timeNum}}&nbsp;s</span>
         </div>
       </div>
+      <div class="errorShow" v-show="errors.has('code')">
+        <span  class="help is-danger">{{ errors.first('code') }}</span>
+      </div>
       <!--输入密码-->
       <div class="inputItem">
         <div  class="leftIcon"></div>
-        <input placeholder="设置登录密码" v-model="password" type="text">
+        <input placeholder="设置登录密码" data-vv-as="密码"  v-validate="'required|min:6'" maxlength="16" name="pass" v-model="password" type="text">
         <div class="rightIcon">
           <div></div>
         </div>
       </div>
+      <div class="errorShow" v-show="errors.has('pass')">
+        <span  class="help is-danger">{{ errors.first('pass') }}</span>
+      </div>
       <!--用户服务协议-->
       <div class="agreement">
-        <input type="checkbox">
+        <input type="checkbox" v-model="checkStatus">
         <span @click="toShowProtocol">已阅读并同意《用户服务协议》</span>
         <!-- <router-link tag="span" :to="{path:'/Agreement'}"></router-link> -->
       </div>
+
       <!--注册按钮-->
       <div class="goRegister" @click="goRegister">
         注册
@@ -64,6 +74,7 @@
           timeOut:null,    //计时器
           password:'',   //登陆的密码
           code:'',   //验证码
+          checkStatus:false,  //用户协议状态
         }
       },
       mounted(){
@@ -81,6 +92,9 @@
         },
         // 发送验证码
         sendCode(){
+          if(this.mobile==''){
+            return;
+          }
           // 开启倒计时读秒
           this.codeShow = false
           // 开启计时器
@@ -110,18 +124,27 @@
         },
         // 注册
         goRegister(){
-          let obj = {
-            domain:'mls',
-            prphone:this.prphone,
-            mobile:this.mobile,
-            password:this.password,
-            code:this.code
-          }
-          this.registerTeacher(obj).then(data=>{
-            // this.$vux.toast.text('登陆成功')
-            this.$router.push('/Personal')
-          }).catch(err=>{
-            // this.$vux.toast.text(err.info)
+          this.$validator.validate().then(result => {
+            if (!result) {
+              return;
+            }else{
+              // 如果用户同意并阅读
+              if(this.checkStatus){
+                let obj = {
+                  domain:'mls',
+                  prphone:this.prphone,
+                  mobile:this.mobile,
+                  password:this.password,
+                  code:this.code
+                }
+                this.registerTeacher(obj).then(data=>{
+                  // this.$vux.toast.text('登陆成功')
+                  this.$router.push('/Personal')
+                }).catch(err=>{
+                  // this.$vux.toast.text(err.info)
+                })
+              }
+            }
           })
         }
       }
@@ -131,9 +154,16 @@
 <style scoped lang="scss">
   @import "~@/assets/css/mixin";
   .register{
+    .errorShow{
+      height:0.6rem;
+      line-height:0.6rem;
+      padding-left:0.87rem;
+      color:red;
+      clear:both;
+    }
     .registerCon{
       margin-top:-0.89rem;
-      padding:0.00rem 0.88rem;
+      padding:0.00rem 0.88rem 0.27rem;
       /*input框*/
       input{
         border:none;
@@ -182,10 +212,10 @@
         }
 
       }
-      .inputItem:nth-of-type(2)>.leftIcon{
+      .inputItem:nth-of-type(3)>.leftIcon{
         @include bg-image('~@/assets/icon/login/icon_code')
       }
-      .inputItem:nth-of-type(3)>.leftIcon{
+      .inputItem:nth-of-type(5)>.leftIcon{
         @include bg-image('~@/assets/icon/login/icon_passWord')
       }
 

@@ -13,21 +13,26 @@
       <div class="itemItem">
         <div class="leftTitle">新手机号</div>
         <div class="middleInfo">
-          <span>+{{prphone}}</span>&nbsp;&nbsp;<input v-model="newmobile" placeholder="请输入手机号" type="text">
+          <span>+{{prphone}}</span>&nbsp;&nbsp;<input name="phone"  v-validate="'required|phone'"  data-vv-as="手机号" v-model="newmobile" placeholder="请输入手机号" type="text">
         </div>
         <div class="rightInfo">
           <span v-if="codeShow" @click="sendCode">获取验证码</span>
           <span v-else>{{timeNum}}&nbsp;s</span>
         </div>
       </div>
+      <div class="errorShow" v-show="errors.has('phone')">
+        <span  class="help is-danger">{{ errors.first('phone') }}</span>
+      </div>
 
       <div class="itemItem">
         <div class="leftTitle">输入验证码</div>
         <div class="middleInfo">
-          <input  v-model="code" placeholder="验证码" type="text">
+          <input  v-model="code"  name="code"  v-validate="'required|alpha_num'"  data-vv-as="验证码"  placeholder="验证码" type="text">
         </div>
       </div>
-
+      <div class="errorShow" v-show="errors.has('code')">
+        <span  class="help is-danger">{{ errors.first('code') }}</span>
+      </div>
       <!--确定-->
       <div class="saveOk" @click="updataPhone" >确定</div>
     </div>
@@ -55,6 +60,9 @@
         ]),
         // 发送验证码
         sendCode(){
+          if(this.mobile==''){
+            return;
+          }
           // 开启倒计时读秒
           this.codeShow = false
           // 开启计时器
@@ -84,16 +92,22 @@
         },
         // 修改手机号
         updataPhone(){
-          let obj = {
-            oldmobile:this.mobile,
-            newmobile:this.newmobile,
-            code:this.code,
-            prphone:this.prphone
-          }
-          this.updateMobile(obj).then(res=>{
-            this.$vux.toast.text('手机号修改成功')
-          }).catch(err=>{
-            this.$vux.toast.text(err.info)
+          this.$validator.validate().then(result => {
+              if (!result) {
+                return;
+              }else{
+                let obj = {
+                  oldmobile:this.mobile,
+                  newmobile:this.newmobile,
+                  code:this.code,
+                  prphone:this.prphone
+                }
+                this.updateMobile(obj).then(res=>{
+                  this.$vux.toast.text('手机号修改成功')
+                }).catch(err=>{
+                  this.$vux.toast.text(err.info)
+                })
+              }
           })
         }
       },
@@ -108,6 +122,13 @@
 <style scoped lang="scss">
   @import "~@/assets/css/mixin";
   .phoneChange{
+    .errorShow{
+      height:0.6rem;
+      line-height:0.6rem;
+      padding-left:0.87rem;
+      color:red;
+      clear:both;
+    }
     .infoCon{
       padding:0.00rem 0.56rem;
       /*手机号item*/
@@ -174,11 +195,15 @@
         line-height: 1.17rem;
         text-align: center;
         margin:0.55rem auto 0.00rem;
-        background:rgba(209,209,209,1);
         border-radius:0.05rem;
+        /*background:rgba(209,209,209,1);*/
+        /*font-size:0.45rem;*/
+        /*font-family:PingFangSC-Regular;*/
+        /*font-weight:400;*/
+        /*color:rgba(255,255,255,1);*/
+        background:linear-gradient(90deg,rgba(39,249,180,1),rgba(11,204,150,1));
         font-size:0.45rem;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
+        font-weight:bold;
         color:rgba(255,255,255,1);
       }
     }

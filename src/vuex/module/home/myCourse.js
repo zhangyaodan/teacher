@@ -8,12 +8,12 @@ export default {
 
   },
   actions: {
-    // 我的课件列表
-    getFileList({ state, commit }, payload) {
+    // 我的课程列表
+    getSchedulingList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        http.post(path.getFileList,payload).then(res => {
+        http.post(path.getSchedulingList,payload).then(res => {
           if (res.code !== 0) return reject(res)
-          resolve(res.data)
+          resolve(res)
         }).catch(err => {
           reject(err)
         })

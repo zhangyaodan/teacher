@@ -12,7 +12,7 @@ export default {
     }
   },
   actions: {
-    // 更改密码
+    // 获取用户信息
     getTeachMs({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         http.post(path.getTeachMs,payload).then(res => {
@@ -39,6 +39,17 @@ export default {
     updateTeacherMsg({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         http.post(path.updateTeacherMsg,payload).then(res => {
+          if (res.code !== 0) return reject(res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    // 修改密码
+    updatePass({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        http.post(path.updatePass,payload).then(res => {
           if (res.code !== 0) return reject(res)
           resolve(res)
         }).catch(err => {

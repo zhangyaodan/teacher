@@ -18,7 +18,7 @@
         <img class="courseImg" src="~@/assets/images/courseImg.png" alt="">
         <div class="rightCon">
           <div class="title">【课时{{item.sort}}】{{item.coursename}}</div>
-          <div class="teacher">老师：{{item.teachername}}</div>
+          <div class="teacher">老师：{{item.nickname}}</div>
           <div class="time">
             <div class="leftTime">
               {{item.starttime.substring(11)}} -- {{item.endtime.substring(11)}}
@@ -53,21 +53,25 @@ export default {
     return {
       day: '周' + '日一二三四五六'.charAt(new Date().getDay()),  //周几
       // date: formatDateTime(new Date()),  //年-月-日
-      date: '2018-12-19',
+      date: '',  //年-月-日
+      datecode:1,     //0 为开始 1 已结束 2全部
       pagenum: 1,   //默认请求第一页
-      listArr: []
+      listArr: [],
     }
   },
   created() {
-    this.getData('')
+    // 获取今日陪练
+    this.getData()
   },
   methods: {
     ...mapActions([
       'getLessonsByall', 'intoClassroom'
     ]),
     ...mapMutations(['SETLESSONSBYONE']),
+    // 前往课表详情页
     toRoute(index) {
       this.listArr[index].date = this.date
+      // 保存当前选中课表的信息
       this.SETLESSONSBYONE(this.listArr[index])
       this.$router.push('/TimeTableInfo')
     },
@@ -75,18 +79,16 @@ export default {
       this.intoClassroom({ 'toteachid': id }).then(res => {
         if (res.code === 0) {
           window.open(res.data.url, `_blank`)
-        } else {
-          // this.$Message.warning(res.info);
         }
       }).catch(err => {
-
+          this.$toast(err.info)
       })
     },
-    getData(date) {
+    getData() {
       // 获取今日陪练信息
       let obj = {
-        date,
-        datecode: 2,
+        date:this.date,
+        datecode: this.datecode,
         pagenum: this.pagenum
       }
       this.getLessonsByall(obj).then(res => {
@@ -94,9 +96,10 @@ export default {
           let arr = res.data.data
           if (arr.length != 0) {
             arr.map(e => {
-              if (e.time == this.date) {
+                // 判断是否是今天的数据
+              // if (e.time == this.date) {
                 this.listArr = e.data
-              }
+              // }
             })
           } else {
             this.listArr = []

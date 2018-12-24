@@ -1,7 +1,7 @@
 <template>
     <div>
       <!--课件item-->
-      <router-link  tag="div"  :to="{path:'/CourseWareList'}" class="wareItem">
+      <div   class="wareItem">
         <div class="leftIconOut">
           <div v-if="imgType=='default'" class="leftIcon leftDefault"></div>
           <div v-else-if="imgType=='world'" class="iconWorld leftDefault"></div>
@@ -9,12 +9,13 @@
           <div v-else class="iconPdf leftDefault"></div>
         </div>
         <div class="middleInfo">
-          小学四年级数学
+          {{item.showname}}
         </div>
+        <!--如果是我的课件第二级不显示右侧箭头-->
         <div class="rightIcon" v-if="type">
           <div></div>
         </div>
-      </router-link>
+      </div>
     </div>
 </template>
 
@@ -24,11 +25,15 @@
       props:{
         type:{
           type:Boolean,
-          default:true
+          default:true      //是否显示向右的箭头
         },
         imgType:{
           type:String,
-          default:'default'
+          default:'default',  //课件的类型
+        },
+        item:{
+          type:Object,
+          default:{}    //每条数据的信息
         }
       }
     }

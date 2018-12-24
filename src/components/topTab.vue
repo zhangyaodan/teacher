@@ -37,7 +37,6 @@ export default {
 .topTab {
   display: flex;
   height: 1.23rem;
-  @include border-1p(rgba(225, 225, 225, 1));
   .leftOut {
     flex: 1;
     display: flex;
